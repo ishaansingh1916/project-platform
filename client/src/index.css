@@ -1,0 +1,19 @@
+body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; }
+.nav { display: flex; gap: 16px; align-items: center; background: #1f2937; color: white; padding: 12px 20px; }
+.nav a { color: white; text-decoration: none; }
+.spacer { flex: 1; }
+.page { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
+.cards { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+.card { flex: 1; min-width: 200px; background: white; padding: 14px; border-radius: 6px; display: flex; flex-direction: column; gap: 6px; }
+.card b { font-size: 24px; }
+.box { background: white; padding: 14px; border-radius: 6px; margin-bottom: 16px; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 10px 0; }
+input, select, textarea { padding: 8px; font-family: inherit; }
+button { padding: 8px 12px; cursor: pointer; }
+table { width: 100%; background: white; border-collapse: collapse; margin-bottom: 16px; }
+th, td { padding: 8px; border-bottom: 1px solid #ddd; text-align: left; }
+.error { color: #b91c1c; }
+.muted { color: #666; }
+.login-box { max-width: 340px; margin: 80px auto; background: white; padding: 24px; border-radius: 8px; }
+.login-box form { display: flex; flex-direction: column; gap: 10px; }
+.warn { background: #fef3c7; padding: 10px; border-radius: 6px; margin-bottom: 10px; }
