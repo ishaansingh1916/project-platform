@@ -1,3 +1,5 @@
+const Task = require("../models/Task");
+const Comment = require("../models/Comment");
 const express = require("express");
 const mongoose = require("mongoose");
 const Project = require("../models/Project");
@@ -130,5 +132,23 @@ router.delete("/:id/members/:userId", loadProject, requireProjectRole("admin", "
   await req.project.save();
   res.json({ message: "Member removed" });
 });
+
+// DELETE a whole project (admin only), together with its tasks and comments
+router.delete("/:id", requireRole("admin"), async (req, res) => {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      return res.status(400).json({ message: "Invalid project id" });
+    }
+    const project = await Project.findById(req.params.id);
+    if (!project) return res.status(404).json({ message: "Project not found" });
+  
+    const tasks = await Task.find({ project: project._id }).select("_id");
+    const taskIds = tasks.map(function (t) {
+      return t._id;
+    });
+    await Comment.deleteMany({ task: { $in: taskIds } });
+    await Task.deleteMany({ project: project._id });
+    await project.deleteOne();
+    res.json({ message: "Project deleted" });
+  });
 
 module.exports = router;

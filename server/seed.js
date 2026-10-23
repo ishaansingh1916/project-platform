@@ -3,11 +3,15 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const User = require("./models/User");
 const Project = require("./models/Project");
+const Task = require("./models/Task");
+const Comment = require("./models/Comment");
 
 async function seed() {
   await mongoose.connect(process.env.MONGO_URI);
-  await User.deleteMany({});
+  await Comment.deleteMany({});
+  await Task.deleteMany({});
   await Project.deleteMany({});
+  await User.deleteMany({});
 
   const passwordHash = await bcrypt.hash("Password@123", 10);
   const users = await User.create([
@@ -21,7 +25,7 @@ async function seed() {
   const member = users[2];
   const viewer = users[3];
 
-  await Project.create([
+  const projects = await Project.create([
     {
       name: "Website Redesign",
       description: "Redesign the company website",
@@ -38,6 +42,21 @@ async function seed() {
       createdBy: admin._id,
       members: [{ user: manager._id, role: "project_manager" }],
     },
+  ]);
+  const web = projects[0];
+  const app = projects[1];
+
+  const tasks = await Task.create([
+    { project: web._id, title: "Design homepage", description: "Create the new homepage layout", status: "todo", priority: "high", assignee: member._id, createdBy: manager._id },
+    { project: web._id, title: "Write copy for About page", status: "in_progress", priority: "medium", assignee: manager._id, createdBy: manager._id },
+    { project: web._id, title: "Fix navigation bug", status: "review", priority: "high", assignee: member._id, createdBy: manager._id },
+    { project: web._id, title: "Plan launch checklist", status: "todo", priority: "low", assignee: null, createdBy: manager._id },
+    { project: app._id, title: "Create wireframes", status: "todo", priority: "medium", assignee: manager._id, createdBy: manager._id },
+  ]);
+
+  await Comment.create([
+    { task: tasks[0]._id, author: manager._id, text: "Please follow the new brand colours." },
+    { task: tasks[0]._id, author: member._id, text: "Started working on it." },
   ]);
 
   console.log("Seed done. All passwords: Password@123");

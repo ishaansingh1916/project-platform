@@ -11,6 +11,7 @@ app.get("/api/health", (req, res) => res.json({ ok: true }));
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/users", require("./routes/users"));
 app.use("/api/projects", require("./routes/projects"));
+app.use("/api", require("./routes/tasks"));
 
 // Catches any unexpected error so the server returns JSON instead of crashing
 app.use((err, req, res, next) => {
