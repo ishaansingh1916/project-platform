@@ -4,6 +4,9 @@ import Layout from "./Layout";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Projects from "./pages/Projects";
+import ProjectDetail from "./pages/ProjectDetail";
+import TaskDetail from "./pages/TaskDetail";
+import Users from "./pages/Users";
 import Profile from "./pages/Profile";
 
 // Only lets logged-in users in
@@ -27,6 +30,11 @@ export default function App() {
       >
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/projects" element={<Projects />} />
+        <Route path="/projects/:id" element={<ProjectDetail />} />
+        <Route path="/projects/:id/tasks" element={<ProjectDetail initialTab="tasks" />} />
+        <Route path="/projects/:id/team" element={<ProjectDetail initialTab="team" />} />
+        <Route path="/tasks/:id" element={<TaskDetail />} />
+        <Route path="/users" element={<Users />} />
         <Route path="/profile" element={<Profile />} />
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
